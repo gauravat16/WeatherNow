@@ -47,9 +47,23 @@ get_weather_response(){
 }
 
 post_notifications(){
-    command="display notification \"Temprature in $1 is $2 ℃\" with title \"Weather\""
-    osascript -e "$command"
 
+ case $machine in 
+        Linux)
+            	notify-send "Weather" "Temprature in $1 is $2 ℃"
+        ;;
+
+        Mac)
+        	command="display notification \"Temprature in $1 is $2 ℃\" with title \"Weather\""
+    		osascript -e "$command"
+
+
+        ;;
+
+        esac
+
+
+    
 }
 
 process(){
