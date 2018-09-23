@@ -12,13 +12,16 @@ setup_env(){
 }
 setup_vars(){
     setup_env
+    resources="resources"
+    bin="bin"
     json_file="weather.json"
     current_city="ghaziabad"
     get_jq
 }
 
 get_jq(){
-
+    curr_path="$(pwd)"
+    cd $bin
     if [[ ! -f jq ]] 
     then
        case $machine in 
@@ -38,12 +41,14 @@ get_jq(){
         chmod u+x jq 
     fi
 
+    cd $curr_path
+
     
     
 }
 
 get_weather_response(){
-    echo "$(curl -s 'http://api.openweathermap.org/data/2.5/weather?q='$current_city'&units=metric&appid=d7099ce3c4c235675313b13bae804658')" > $json_file
+    echo "$(curl -s 'http://api.openweathermap.org/data/2.5/weather?q='$current_city'&units=metric&appid=d7099ce3c4c235675313b13bae804658')" > $resources/$json_file
 }
 
 post_notifications(){
@@ -54,7 +59,7 @@ post_notifications(){
         ;;
 
         Mac)
-        	command="display notification \"Temprature in $1 is $2 ℃\" with title \"Weather\""
+        	command="display notification \"Temprature in $1 is $2 ℃\" with title \"Weather\" "
     		osascript -e "$command"
 
 
@@ -66,9 +71,21 @@ post_notifications(){
     
 }
 
+get_icon(){
+    icon_name=$1
+    curr_path="$(pwd)"
+    cd $resources
+    if [[ ! -f "$icon_name" ]] 
+    then
+        wget http://openweathermap.org/img/w/$icon_name
+
+    fi
+    cd $curr_path
+}
+
 process(){
-    
-    post_notifications $current_city $(./jq '.main.temp' $json_file)
+    get_icon "$(./$bin/jq -r '.weather[0].icon' $resources/$json_file).png"
+    post_notifications $current_city $(./$bin/jq -r '.main.temp' $resources/$json_file)
 }
 
 init(){
@@ -78,7 +95,7 @@ init(){
     do
     get_weather_response
     process 
-    sleep 5
+    sleep 3600
     done
     
   
