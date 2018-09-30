@@ -12,4 +12,4 @@ A shell script to display weather as a notification.
   
 ## Screenshots
 
-![macOS](https://github.com/gauravat16/WeatherNow/blob/master/screenshots/ss_1.png)
+![macOS](https://github.com/gauravat16/WeatherNow/blob/master/screenshots/ss_2.png)
