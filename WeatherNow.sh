@@ -14,6 +14,7 @@ setup_vars(){
     setup_env
     resources="resources"
     bin="bin"
+    make_dirs
     json_file="weather.json"
     location_json="location.json"
     get_jq
