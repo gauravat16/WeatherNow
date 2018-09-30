@@ -67,7 +67,7 @@ post_notifications(){
     
     case $machine in
         Linux)
-            notify-send "Weather" "Temprature in $1 is $2 ℃"
+            notify-send -i $3 "Weather" "Temprature in $1 is $2 ℃"
         ;;
         
         Mac)
@@ -90,14 +90,17 @@ get_icon(){
     if [[ ! -f "$icon_name" ]]
     then
         wget http://openweathermap.org/img/w/$icon_name
+        cp $icon_name  ~/.local/share/icons
         
     fi
+
     cd $curr_path
 }
 
 process(){
-    get_icon "$(./$bin/jq -r '.weather[0].icon' $resources/$json_file).png"
-    post_notifications "$current_city" "$(./$bin/jq -r '.main.temp' $resources/$json_file)"
+    local icon_name_no_extn="$(./$bin/jq -r '.weather[0].icon' $resources/$json_file)"
+    get_icon "$icon_name_no_extn".png
+    post_notifications "$current_city" "$(./$bin/jq -r '.main.temp' $resources/$json_file)" "$icon_name_no_extn"
 }
 
 init(){
