@@ -20,6 +20,11 @@ setup_vars(){
     get_current_city
 }
 
+make_dirs(){
+    mkdir -p $(pwd)/$bin
+    mkdir -p $(pwd)/$resources
+}
+
 get_jq(){
     curr_path="$(pwd)"
     cd $bin
