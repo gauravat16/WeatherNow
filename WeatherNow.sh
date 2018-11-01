@@ -67,11 +67,11 @@ post_notifications(){
     
     case $machine in
         Linux)
-            notify-send -i $3 "Weather" "Temprature in $1 is $2 ℃"
+            notify-send -i $3 "Weather" "Temperature in $1 is $2 ℃"
         ;;
         
         Mac)
-            command="display notification \"Temprature in $1 is $2 ℃\" with title \"Weather\" "
+            command="display notification \"Temperature in $1 is $2 ℃\" with title \"Weather\" "
             osascript -e "$command"
             
             
